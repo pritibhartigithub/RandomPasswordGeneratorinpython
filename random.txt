@@ -1,0 +1,36 @@
+import random
+import string
+
+def generate_password(length):
+    # Define the pool of characters to choose from
+    characters = string.ascii_letters + string.digits + string.punctuation
+
+    # Generate the password by randomly selecting characters from the pool
+    password = ''.join(random.choice(characters) for _ in range(length))
+    return password
+
+def is_strong_password(password):
+    # Check if the password meets certain criteria for strength
+    has_uppercase = any(char.isupper() for char in password)
+    has_lowercase = any(char.islower() for char in password)
+    has_digit = any(char.isdigit() for char in password)
+    has_special = any(char in string.punctuation for char in password)
+
+    # The password is considered strong if it satisfies all the criteria
+    return has_uppercase and has_lowercase and has_digit and has_special
+
+def main():
+    try:
+        length = int(input("Enter the desired password length: "))
+        password = generate_password(length)
+        
+        # Generate a new password until a strong one is obtained
+        while not is_strong_password(password):
+            password = generate_password(length)
+
+        print("Generated Password:", password)
+    except ValueError:
+        print("Invalid input. Please enter a valid integer length.")
+
+if __name__ == "__main__":
+    main()
